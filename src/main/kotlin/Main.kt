@@ -8,7 +8,6 @@ fun main() {
     val robotController = RobotController(TableTop())
     val commandParserService = CommandParserService(robotController)
 
-    println("Robot Challenge by Meet Chaudhary.")
     while (true) {
         println(
             "Select Command input method (enter choice - 1 or 2): \n"

@@ -2,13 +2,13 @@ package service
 
 import controller.RobotController
 import model.Command
-import model.Coordinate
 import model.Direction
 import model.Robot
+import model.RobotFactory
 
 class CommandParserService(private val robotController: RobotController) {
     private var placeCommandReceived: Boolean  = false
-    private var idCounter = 1
+    private val robotFactory = RobotFactory()
 
     /**
      * Parses a command string and executes commands.
@@ -38,8 +38,7 @@ class CommandParserService(private val robotController: RobotController) {
      */
     private fun createRobot(command: Command, commandString: String): Robot {
         val (x, y, direction) = command.regex.find(commandString)!!.destructured
-        val robot = Robot(id = idCounter, coordinate = Coordinate(x.toInt(), y.toInt()), direction = Direction.valueOf(direction))
-        idCounter++
+        val robot = robotFactory.Robot(x.toInt(), y.toInt(), Direction.valueOf(direction))
         placeCommandReceived = true
         return robot
     }
