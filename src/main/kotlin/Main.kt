@@ -16,20 +16,24 @@ fun main() {
         )
         when (readLine()?.toIntOrNull()) {
             1 -> {
-                when (val command = readLine()) {
-                    "RESTART" -> break
-                    "EXIT" -> exitProcess(0)
-                    else -> command?.let { commandParserService.parse(it) }
+                while (true) {
+                    when (val command = readLine()) {
+                        "RESTART" -> break
+                        "EXIT" -> exitProcess(0)
+                        else -> command?.let { commandParserService.parse(it) }
+                    }
                 }
             }
             2 -> {
-                println("Enter path to file:")
-                when (val filePath = readLine()) {
-                    "RESTART" -> break
-                    "EXIT" -> exitProcess(0)
-                    else -> {
-                        val file = filePath?.let { File(it) }
-                        if (file?.exists() == true) file.readLines().forEach { commandParserService.parse(it) }
+                while (true) {
+                    println("Enter path to file:")
+                    when (val filePath = readLine()) {
+                        "RESTART" -> break
+                        "EXIT" -> exitProcess(0)
+                        else -> {
+                            val file = filePath?.let { File(it) }
+                            if (file?.exists() == true) file.readLines().forEach { commandParserService.parse(it) }
+                        }
                     }
                 }
             }
