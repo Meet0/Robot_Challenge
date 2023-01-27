@@ -4,6 +4,7 @@ import model.Coordinate
 import model.Direction
 import model.Robot
 import model.TableTop
+import java.lang.StringBuilder
 
 open class RobotController(val tableTop: TableTop) {
     private var robotsOnTable: MutableMap<Int, Robot> = mutableMapOf()
@@ -55,9 +56,8 @@ open class RobotController(val tableTop: TableTop) {
      * move - moves the robot one step in the direction it is currently facing
      */
     fun move() {
-        if (activeRobot.id == -1) {
-            return
-        }
+        if (activeRobot.id == -1) return
+
         val oldCoordinate: Coordinate = activeRobot.coordinate.copy()
         when(activeRobot.direction) {
             Direction.NORTH -> activeRobot.coordinate.y++
@@ -65,26 +65,24 @@ open class RobotController(val tableTop: TableTop) {
             Direction.EAST -> activeRobot.coordinate.x++
             Direction.WEST -> activeRobot.coordinate.x--
         }
-        if (place(activeRobot)) {
-            tableTop.clearCoordinate(oldCoordinate)
-        } else {
-            activeRobot.coordinate = oldCoordinate
-        }
+        if (place(activeRobot)) tableTop.clearCoordinate(oldCoordinate)
+        else activeRobot.coordinate = oldCoordinate
     }
 
     /**
      * report - generates a string report of the robots on the tabletop and prints it
      */
     fun report() {
-        if (robotsOnTable.isEmpty()) {
-            println("0 robots present on table top.")
-        }
+        if (robotsOnTable.isEmpty()) println("0 robots present on table top.")
         val output = StringBuilder()
-        output.append("Total Robots on Table: ", robotsOnTable.size).append("\n")
+            .append("Total Robots on Table: ", robotsOnTable.size).append("\n")
             .append("Active Robot: " + activeRobot.report()).append("\n")
-            .append("Other Robots: " + robotsOnTable.filter { it.key != activeRobot.id }.map { robot -> robot.value.report() }.joinToString(separator = "\n"))
+            .append("Other Robots: " + robotsOnTable.filter { it.key != activeRobot.id }
+                .map { robot -> robot.value.report() }
+                .joinToString(separator = "\n")
+            ).toString()
 
-        println(output.toString())
+        println(output)
     }
 
     /**
@@ -92,12 +90,8 @@ open class RobotController(val tableTop: TableTop) {
      * @param id the ID of the robot to be set active.
      */
     fun setActive(id: Int) {
-        if (robotsOnTable.containsKey(id)) {
-            println("Robot $id activated")
-            activeRobot = robotsOnTable[id]!!
-        } else {
-            println("Robot $id does not exist on table")
-        }
+        if (robotsOnTable.containsKey(id)) activeRobot = robotsOnTable[id]!!
+        else println("Robot $id does not exist on table")
     }
 
     /**
