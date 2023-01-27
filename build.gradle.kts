@@ -16,6 +16,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.mockito:mockito-core:3.3.3")
+    testImplementation("io.mockk:mockk:1.10.0")
 }
 
 tasks.test {
@@ -27,7 +28,6 @@ tasks.test {
     }
 }
 
-
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
 }
@@ -35,7 +35,10 @@ tasks.withType<KotlinCompile>() {
 tasks.withType<JacocoReport> {
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
-            exclude("model/*.class")
+            exclude("model/Command.class")
+            exclude("model/Coordinate.class")
+            exclude("model/Direction.class")
+            exclude("model/Robot.class")
             exclude("MainKt.class")
         }
     )

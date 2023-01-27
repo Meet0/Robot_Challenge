@@ -76,6 +76,9 @@ open class RobotController(val tableTop: TableTop) {
      * report - generates a string report of the robots on the tabletop and prints it
      */
     fun report() {
+        if (robotsOnTable.isEmpty()) {
+            println("0 robots present on table top.")
+        }
         val output = StringBuilder()
         output.append("Total Robots on Table: ", robotsOnTable.size).append("\n")
             .append("Active Robot: " + activeRobot.report()).append("\n")

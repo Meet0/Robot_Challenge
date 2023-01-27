@@ -14,8 +14,7 @@ fun main() {
                     + "1. Interactive Command Input - one command at a time via console.\n"
                     + "2. Read Commands(each command on new line) from file"
         )
-
-        when (readLine()?.toInt()) {
+        when (readLine()?.toIntOrNull()) {
             1 -> {
                 when (val command = readLine()) {
                     "RESTART" -> break
@@ -28,7 +27,10 @@ fun main() {
                 when (val filePath = readLine()) {
                     "RESTART" -> break
                     "EXIT" -> exitProcess(0)
-                    else -> filePath?.let { File(it).readLines() }?.forEach { commandParserService.parse(it) }
+                    else -> {
+                        val file = filePath?.let { File(it) }
+                        if (file?.exists() == true) file.readLines().forEach { commandParserService.parse(it) }
+                    }
                 }
             }
             else -> println("Enter a valid choice(1-2).")
