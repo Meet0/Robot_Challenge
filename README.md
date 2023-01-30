@@ -13,7 +13,7 @@ The solution has been implemented as a console application using kotlin. The inp
 
 The user can enter the commands interactively using the console or can provide a path to file containing the commands.
 
-Further user can enter `RESTART` command to re-select the choice of user input and `EXIT` command to exit the application.
+Furthermore, user can enter `RESTART` command to re-select the choice of user input and `EXIT` command to exit the application.
 
 
 -- Meet Chaudhary
